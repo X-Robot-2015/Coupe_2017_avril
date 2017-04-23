@@ -5,35 +5,36 @@ import threading,time
 from math import atan,pi
 
 move = serial.Serial("/dev/moteur",9600,timeout = 1)
-capteur = serial.Serial("/dev/pince",115200,timeout = 1)
+##capteur = serial.Serial("/dev/pince",115200,timeout = 1)
 ## actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
-l = []
+
+l = [(5,(100,0)),(5,(-100,0))]*5
 finished = 1
 position = (0,0,0)
 
 class execution(threading.Thread):
 	def run(self):
-		global finished #il faut préciser qu'on se sert de la varaible globale
-		while True:
-			time.sleep(1)
-			if finished and l:
-				finished=0
-				command=l.pop(0)
-				if command[0]==1: #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
-					avancer(command[1])
-				if command[0]==2:
-					r()
-				if command[0]==3:
-					tourner(command[1])
-				if command[0]==4:
-					setNewTarget(command[1])
-				if command[0]==5:
-					aller(command[1])
-				if command[0]==6:
-					readPos()
-				if command[0]==7:
-					attraper()
+         global finished #il faut préciser qu'on se sert de la varaible globale
+         while True:
+             time.sleep(1)
+             if finished and l:
+                 finished=0
+                 command=l.pop(0)
+                 if command[0]==1: #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
+                     avancer(command[1])
+                 if command[0]==2:
+                     r()
+                 if command[0]==3:
+                     tourner(command[1])
+                 if command[0]==4:
+                     setNewTarget(command[1])
+                 if command[0]==5:
+                     aller(command[1])
+                 if command[0]==6:
+                     readPos()
+                 if command[0]==7:
+                     attraper()
 
 
 class serialRead(threading.Thread):
@@ -45,7 +46,6 @@ class serialRead(threading.Thread):
          while True:
              
              replyTest = move.readline()
-             
              replyTest = replyTest[:-2]
              
              if(len(replyTest) > 0 and replyTest == "debut"):
@@ -157,7 +157,7 @@ def r(): #case2
 	move.write(chr(2)+chr(0))
 
 def re(): #case999
-	move.write(chr(999)+chr(0))
+	move.write(chr(9)+chr(0))
 
 def tourner(angle): #case3
 	angle += 32768
@@ -264,6 +264,6 @@ def recherche_tube():
             print("gros objet")
             return -1
 
-capteurDist().start()
+##capteurDist().start()
 serialRead().start()
 execution().start()

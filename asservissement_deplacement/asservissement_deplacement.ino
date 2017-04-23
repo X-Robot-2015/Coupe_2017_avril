@@ -1,5 +1,6 @@
 
-
+long time1;
+long time2;
 long temps = 0;
 float coefVitesseR=1;
 float coefVitesse = 0.6;
@@ -185,6 +186,9 @@ void incr_left() {
 void setup()
 {
   //capteurs
+  
+time1 = 0;
+time2 = 0;
   Serial.begin(9600);
 
   pinMode(pin_G_A, INPUT);
@@ -276,46 +280,7 @@ void setup()
       PIDmode   = Speed_PD;*/
 }
 
-void leftUpdate() // update the encoder values for the LEFT motor
-{
-  //Serial.println("leftupdate");
-  if (PIND & B00000100) //Thats equivalent to digitalRead, only we read it inside the registers, so as it's much faster. Check Port Manipulation out
-  {
 
-    if (PIND & B00010000) leftClicks++;
-    else leftClicks--;
-  }
-  else
-  {
-    if (PIND & B00010000) leftClicks--;
-    else leftClicks++;
-  }
-
-}
-
-void rightUpdate() // update the encoder values for the RIGHT motor
-{
-
-  if (PIND & B00001000) //left A//if ((PINC>>PINC0) & 1) // equivalent to "if (PINC.0 == 1)"
-  {
-
-    if (PIND & B00000010) rightClicks--; // left B // equivalent to "if (PINC.1 == 1)"
-    else rightClicks++;
-  }
-  else
-  {
-
-
-    if (PIND & B00000010) {
-      rightClicks++;
-
-    } // Left B//equivalent to "if (PINC.1 == 1)"
-    else {
-      rightClicks--;
-
-    }
-  }
-}
 
 void setMotorDir(int motor, int dir) // set the motor direction -- REVIEWED
 {
@@ -364,67 +329,6 @@ void setParameters(long dist, long ang)
   compteurZeroDistance=0;
 }
 
-void Asserv()
-{
-  
-
-  erreurDistance = distanceTarget - (leftClicks + rightClicks) / 2;
-  erreurAngle = angleTarget - (rightClicks - leftClicks);
-
-  Serial.println(erreurAngle);
-  Serial.println(erreurDistance);
-  
-
-  distanceDer = erreurDistance - lastErreurDistance;
-  angleDer = erreurAngle - lastErreurAngle;
-
-  distanceInt += erreurDistance;
-  angleInt += erreurAngle;
-
-  lastErreurDistance = erreurDistance;
-  lastErreurAngle = erreurAngle;
-
-  leftPWM = (kPcoord * (erreurDistance - erreurAngle) + kDcoord * (distanceDer - angleDer) + kIcoord * (distanceInt - angleInt) ) / 1024;
-  rightPWM = (kPcoord * (erreurDistance + erreurAngle) + kDcoord * (distanceDer + angleDer) + kIcoord * (distanceInt + angleInt) ) / 1024;
-
-  //compensating the non-linear dependency speed = f(PWM_Value)
-  tempPWM = (float) abs(leftPWM) / 255.0;
-  tempPWMsign = leftPWM / abs(leftPWM);
-  tempPWM = pow(tempPWM, 0.2);
-  tempPWM = 255.0 * tempPWM;
-  leftPWM = (int) tempPWM * tempPWMsign;
-
-  tempPWM = (float) abs(rightPWM) / 255.0;
-  tempPWMsign = rightPWM / abs(rightPWM);
-  tempPWM = pow(tempPWM, 0.2);
-  tempPWM = 255.0 * tempPWM;
-  rightPWM = (int) tempPWM * tempPWMsign;
-
-  if (erreurAngle < 10 && erreurAngle>-10){
-    compteurZeroAngle++;
-  }
-
-  if(erreurDistance <10 && erreurDistance>-10){
-    compteurZeroDistance ++ ;
-  }
-
-  if (checkSeq  && compteurZeroAngle > 100) {
-    distanceTarget = distanceTarget2;
-    compteurZeroDistance=0;
-    compteurZeroAngle=0;
-    checkSeq=false;
-    setMotor(LEFT,2,0);
-    setMotor(RIGHT,2,0);
-    delay(1000);
-    
-  }
-
-  
-
-  if(erreurDistance <10 && erreurDistance>-10 && compteurZeroDistance >100 && checkSeq == false){
-    hasArrived = true;
-  }
-}
 
 void AsservSoft()
 {
@@ -524,6 +428,16 @@ void AsservSoft()
 
   if(erreurDistance <10 && erreurDistance>-10 && compteurZeroDistance >100 && checkSeq == false){
     hasArrived = true;
+    time2 = millis();
+    deltaTime = time2-time1;
+    
+    if(deltaTime > 300){
+      replyCommand = 5;
+      replyArgCount = 0;
+      sendData();
+      time1=time2;
+    }
+    
   }
 
   temps++;
@@ -548,13 +462,7 @@ void initializeZero(){
 
 
 
-bool has_Arrived(){
 
-  
-  if(erreurDistance <10 && erreurDistance>-10 && erreurAngle < 10  && erreurAngle>-10 && compteurZeroAngle > 100 && compteurZeroDistance >100){
-    hasArrived = true;
-  }
-}
 /*
   void setPwmFreq(int pin, int divisor) // function used to override the PWM frequency setting used by default by Arduino
   {
@@ -563,7 +471,8 @@ bool has_Arrived(){
    {
      switch (divisor)
      {
-       case 1: mode = 0x01; break;
+       
+ 1: mode = 0x01; break;
        case 8: mode = 0x02; break;
        case 64: mode = 0x03; break;
        case 256: mode = 0x04; break;
@@ -591,12 +500,16 @@ bool has_Arrived(){
   }
 */
 
+
+
 void sendData()
 {
-
-  Serial.write(replyCommand);
-  Serial.write(replyArgCount);
-  for (i = 0; i < replyArgCount; i++) Serial.write(replyArg[i]);
+  
+    Serial.println("debut");
+    Serial.println(replyCommand);
+    Serial.println(replyArgCount);
+    for (i = 0; i < replyArgCount; i++) Serial.println(replyArg[i]);
+  
 
 }
 
@@ -651,15 +564,7 @@ void doSerial() // UART processing function
 
         }
 
-      case 4: // set new destinations in CLICKS :: SetNewTarget() [4 args, 2 vars]
-        {
-          newLeftTarget = 256 * (long)cardArg[1] + (long)cardArg[0];
-          newRightTarget = 256 * (long)cardArg[3] + (long)cardArg[2];
-
-          leftTarget = newLeftTarget - 32768;
-          rightTarget = newRightTarget - 32768;
-          break;
-        }
+      
 
       case 2: // reset destination (destination = current position) :: ResetTarget() [0 args, 0 vars]
         {
@@ -668,166 +573,17 @@ void doSerial() // UART processing function
           break;
         }
 
-      case 999: //reset destination for case 6
+      case 9: //reset destination for case 6
         {
           angleTarget = 0;
           leftClicks = 0;
           distanceTarget = 0;
           rightClicks = 0;
+          break;
+        }
 
 
-        case 131: // set the maximum speed in clicks/second :: SetMaxSpeedC() [2 args, 1 var]
-          {
-            maxSpeedC = 256 * (int)cardArg[1] + (int)cardArg[0];
-            break;
-          }
-
-        case 132: // set the maximum acceleration in clicks/second^2 :: SetMaxAccC() [2 args, 1 var]
-          {
-            maxAccC = 256 * (int)cardArg[1] + (int)cardArg[0];
-            break;
-          }
-
-        case 133: // set the track width (the distance between the left and right wheels) in milimeters :: SetTrackWidth() [2 args, 1 var]
-          {
-            trackWidth = 256 * (int)cardArg[1] + (int)cardArg[0];
-            break;
-          }
-
-        case 134: // set the number of clicks per revolution :: SetCPR() [2 args, 1 var]
-          {
-            cpr = 256 * (int)cardArg[1] + (int)cardArg[0];
-            break;
-          }
-
-        case 135: // set the wheel diameter in millimeters :: SetWheelDiameter() [3 args, 2 var]
-          {
-            if (cardArg[0] == 0) leftWheelDiameter = 256 * (int)cardArg[2] + (int)cardArg[1];
-            else rightWheelDiameter = 256 * (int)cardArg[2] + (int)cardArg[1];
-            break;
-          }
-
-        case 1: // go straight forward/backward for a distance expressed in millimeters :: GoStraigth() [4 args, 2 var] -- old [2 args, 1 var]
-          {
-            /* OLD FUNCTION - 2 args, 1 var
-              deltaForward = 256 * (long)cardArg[1] + (long)cardArg[0];
-              deltaForward = deltaForward - 32768;
-              tempDelta = (float) deltaForward;
-              tempDelta = tempDelta * (float) cpr / ((float) M_PI * (float) wheelDiameter);
-              deltaForward = (long) tempDelta;
-              leftTarget = leftClicks + deltaForward;
-              rightTarget = rightClicks + deltaForward;
-              break;
-            */
-            deltaForward = 256 * (long)cardArg[1] + (long)cardArg[0];
-            deltaForward = deltaForward - 32768;
-
-            tempDelta = (float) deltaForward;
-            tempDelta = tempDelta * (float) cpr / ((float) m_pi * (float) leftWheelDiameter);
-            deltaForwardLeft = (long) tempDelta;
-
-            tempDelta = (float) deltaForward;
-            tempDelta = tempDelta * (float) cpr / ((float) m_pi * (float) rightWheelDiameter);
-            deltaForwardRight = (long) tempDelta;
-
-            leftTarget = leftClicks + deltaForwardLeft;
-            rightTarget = rightClicks + deltaForwardRight;
-
-            leftTargetSpeed = 256 * (long)cardArg[3] + (long)cardArg[2];
-            leftTargetSpeed = leftTargetSpeed - 32768;
-            rightTargetSpeed = leftTargetSpeed;
-
-            leftTargetSpeed = leftTargetSpeed * (long) cpr;
-            leftTargetSpeed = leftTargetSpeed * (long) motorWheelDiameter;
-            leftTargetSpeed = leftTargetSpeed / 60000;
-            leftTargetSpeed = leftTargetSpeed / (long) leftWheelDiameter;
-
-            rightTargetSpeed = rightTargetSpeed * (long) cpr;
-            rightTargetSpeed = rightTargetSpeed * (long) motorWheelDiameter;
-            rightTargetSpeed = rightTargetSpeed / 60000;
-            rightTargetSpeed = rightTargetSpeed / (long) rightWheelDiameter;
-
-            leftBigPWM = 0;
-            rightBigPWM = 0;
-
-            maxLeftPWM = 128 + 36 * abs(leftTargetSpeed + rightTargetSpeed) / 40;
-            maxRightPWM = maxLeftPWM;
-
-            if (abs(deltaForwardLeft + deltaForwardRight) > 20000) errorThresholdSlow = (long) (cpr / 2);
-            else errorThresholdSlow = abs(deltaForwardLeft + deltaForwardRight) / 4;
-
-            PIDmode = Speed_PD;
-            PIDautoswitch = true;
-
-            break;
-          }
-
-        case 3: // turn around an angle expressed in radians (en millièmes de radians exactement):: TurnRad() [4 args, 2 var] -- old [2 args, 1 var]
-          {
-            /* OLD FUNCTION - 2 args, 1 var
-              intDeltaAngle = 256 * (long)cardArg[1] + (long)cardArg[0];
-              intDeltaAngle = intDeltaAngle - 32768;
-              deltaAngle = (float) intDeltaAngle / (float) 1000;
-              deltaAngle = deltaAngle * (float) trackWidth * (float) cpr;
-              deltaAngle = deltaAngle / ((float) 2 * m_pi * (float) wheelDiameter);
-              deltaForward = (long) deltaAngle;
-              leftTarget = leftClicks - deltaForward;
-              rightTarget = rightClicks + deltaForward;
-            */
-
-            intDeltaAngle = 256 * (long)cardArg[1] + (long)cardArg[0];
-            intDeltaAngle = intDeltaAngle - 32768;
-
-            deltaAngle = (float) intDeltaAngle / (float) 1000;
-
-            deltaAngleLeft = deltaAngle * (float) trackWidth * (float) cpr;
-            deltaAngleLeft = deltaAngleLeft / ((float) 2 * m_pi * (float) leftWheelDiameter);
-
-            deltaAngleRight = deltaAngle * (float) trackWidth * (float) cpr;
-            deltaAngleRight = deltaAngleRight / ((float) 2 * m_pi * (float) leftWheelDiameter);
-
-            deltaForwardLeft = (long) deltaAngleLeft;
-            deltaForwardRight = (long) deltaAngleRight;
-
-            leftTarget = leftClicks - deltaForwardLeft;
-            rightTarget = rightClicks + deltaForwardRight;
-
-            leftTargetSpeed = 256 * (long)cardArg[3] + (long)cardArg[2];
-            leftTargetSpeed = leftTargetSpeed - 32768;
-
-            leftTargetSpeed = leftTargetSpeed * (long) cpr;
-            leftTargetSpeed = leftTargetSpeed * (long) motorWheelDiameter;
-            leftTargetSpeed = leftTargetSpeed / 60000;
-            leftTargetSpeed = leftTargetSpeed / (long) wheelDiameter;
-
-            if (deltaForwardLeft + deltaForwardRight >= 0)
-            {
-              leftTargetSpeed = -leftTargetSpeed;
-            }
-            else rightTargetSpeed = -rightTargetSpeed;
-
-            leftBigPWM = 0;
-            rightBigPWM = 0;
-
-            maxLeftPWM = 128 + 36 * (abs(leftTargetSpeed) + abs(rightTargetSpeed)) / 40;
-            maxRightPWM = maxLeftPWM;
-
-            if (abs(deltaForward) > 10000) errorThresholdSlow = (long) (cpr / 2);
-            else errorThresholdSlow = abs(deltaForward) / 2;
-
-            PIDmode = Coord_PD; //modifié par Raphaël
-            PIDautoswitch = true;
-
-            break;
-          }
-
-        case 138: // set the maximum PWM parameter (0 - 255) :: SetMaxPWM() [1 arg, 1 var]
-          {
-            maxLeftPWM = (int) cardArg[0];
-            maxRightPWM = (int) cardArg[0];
-            break;
-          }
-
+        
         case 139: // compute and send back the current angle of the robot :: GetAngleRad() [RETURN: 2 args, 1 var]
           {
             /*deltaClicks = rightClicks - leftClicks;
@@ -857,7 +613,6 @@ void doSerial() // UART processing function
             replyArg[1] = (unsigned char) (intAngle / 256);
             replyArg[0] = (unsigned char) (intAngle - 256 * (long) replyArg[1]);
 
-            sendData();
             break;
           }
 
@@ -900,7 +655,6 @@ void doSerial() // UART processing function
             replyArg[5] = (unsigned char) (yInt / 256);
             replyArg[4] = (unsigned char) (yInt - 256 * (long) replyArg[5]);
 
-            sendData();
             break;
           }
 
@@ -937,7 +691,6 @@ void doSerial() // UART processing function
             if (hasArrived == true) replyArg[0] = 1; // modifié par Raphaël
             else replyArg[0] = 0; // modifié par Raphaël
 
-            sendData();
 
             break;
           }
@@ -949,7 +702,7 @@ void doSerial() // UART processing function
         digitalWrite(Status_Red, LOW);
     }
   }
-}
+
 // ##### The program's main loop. #####
 void loop()
 
@@ -1005,180 +758,20 @@ void loop()
   //****************************************************************************//
 
   //*********************** checking if we have arrived ************************//
-  if ((leftError < errorThresholdStop) && (rightError < errorThresholdStop)) hasArrived = true;
-  else hasArrived = false;//this is used only to return the value to the brain. other than that, it doesn't change how the loop works
+  //if ((leftError < errorThresholdStop) && (rightError < errorThresholdStop)) hasArrived = true;
+  //else hasArrived = false;//this is used only to return the value to the brain. other than that, it doesn't change how the loop works
 
   //********************* implementing the PID autoswitch***********************//
-  if (PIDautoswitch == true)
-  {
-    //if too too close close, switch to coordinate mode and limit PWMmax
-    if ((leftError < errorThresholdStop) && (rightError < errorThresholdStop))
-    {
-      PIDmode = Coord_PD;
-      maxLeftPWM = 180;
-      maxRightPWM = 180;
-      PIDautoswitch = false;
-    }
-    //if too close switch to coordinate mode
-    else if ((leftError < errorThresholdSlow) && (rightError < errorThresholdSlow))
-    {
-      PIDmode = Coord_PD;
-      if (lastPWM >= 128)
-      {
-        maxLeftPWM = lastPWM;
-        maxRightPWM = lastPWM;
-      }
-      else
-      {
-        maxLeftPWM = 128;
-        maxRightPWM = 128;
-      }
-    }
-  }
+  
 
 
   //############################################################################//
   //############################## PID computing ###############################//
   //############################################################################//
-  switch (PIDmode)
-  {
-    case New_Coord_PD:
-      {
+  
         AsservSoft();
 
-        break;
-      }
-
-    case Coord_PD: // PD algorithm, target COORDINATES
-      {
-        // computing the errors for each motor
-        leftError = leftTarget - leftClicks;
-        rightError = rightTarget - rightClicks;
-
-
-        //Serial.print("leftError: ");
-        //Serial.print(leftError);
-
-        // computing the derivatives for each motor
-        leftDer = leftError - lastLeftError;
-        rightDer = rightError - lastRightError;
-
-        //Serial.print("  leftDer: ");
-        //Serial.print(leftDer);
-
-        // updating the last error
-        lastLeftError = leftError;
-        lastRightError = rightError;
-
-        // actual PID calculus
-        leftPWM = (kPcoord * leftError + kDcoord * leftDer) / 1024;
-        rightPWM = (kPcoord * rightError + kDcoord * rightDer) / 1024;
-
-        //Serial.print("  leftPWM: ");
-        //Serial.print(leftPWM);
-
-        // compensating the non-linear dependency speed = f(PWM_Value)
-        tempPWM = (float) abs(leftPWM) / 255.0;
-        tempPWMsign = leftPWM / abs(leftPWM);
-        tempPWM = pow(tempPWM, 0.2);
-        tempPWM = 255.0 * tempPWM;
-        leftPWM = (int) tempPWM * tempPWMsign;
-
-        tempPWM = (float) abs(rightPWM) / 255.0;
-        tempPWMsign = rightPWM / abs(rightPWM);
-        tempPWM = pow(tempPWM, 0.2);
-        tempPWM = 255.0 * tempPWM;
-        rightPWM = (int) tempPWM * tempPWMsign;
-
-
-        //Serial.print("  leftPWM: ");
-        ///Serial.println(leftPWM);
-
-        //Serial.println();
-
-
-
-        break;
-      }
-    case Coord_PID: // PID algorithm, target COORDINATES
-      {
-        break;
-      }
-    case Speed_PD: // PD algorithm, target SPEED
-      {
-        // computing the time interval
-        currentTime = micros();//*********************it is 64 times higher****************//
-        deltaTime = currentTime - lastTime;
-        lastTime = currentTime;
-        deltaTime = deltaTime / 64;// ***********which is fixed here*************//
-
-        // computing the current speed in clicks / millisecond
-        leftSpeed = deltaLeftClicks * 1000 / (long) deltaTime;
-        rightSpeed = deltaRightClicks * 1000 / (long) deltaTime;
-
-        // computing the speed error
-        leftSpeedError = leftTargetSpeed - leftSpeed;
-        rightSpeedError = rightTargetSpeed - rightSpeed;
-
-        // computing the speed error derivative
-        leftSpeedDer = leftSpeedError - lastLeftSpeedError;
-        rightSpeedDer = rightSpeedError - lastRightSpeedError;
-
-        // updating the last error value
-        lastLeftSpeedError = leftSpeedError;
-        lastRightSpeedError = rightSpeedError;
-
-        // computing the errors for each motor -- useful for the autoswitch
-        lastLeftError = leftTarget - leftClicks;
-        lastRightError = rightTarget - rightClicks;
-
-        // actual PID calculus
-        leftBigPWM = leftBigPWM + (kPspeed * leftSpeedError + kDspeed * leftSpeedDer) / 16;
-        rightBigPWM = rightBigPWM + (kPspeed * rightSpeedError + kDspeed * rightSpeedDer) / 16;
-        leftPWM = leftBigPWM / 64;
-        rightPWM = rightBigPWM / 64;
-
-        lastPWM = (abs(leftPWM) + abs(rightPWM)) / 2;
-
-        break;
-      }
-    case Speed_PID: // PID algorithm, target SPEED -- NOT PROPERLY TUNED, might abandon
-      {
-        /*
-          // computing the time interval
-          currentTime = micros();
-          deltaTime = currentTime - lastTime;
-          lastTime = currentTime;
-          deltaTime = deltaTime / 64;
-          // computing the current speed in clicks / millisecond
-          leftSpeed = deltaLeftClicks * 1000 / (long) deltaTime;
-          rightSpeed = deltaRightClicks * 1000 / (long) deltaTime;
-          // computing the speed error
-          leftSpeedError = leftTargetSpeed - leftSpeed;
-          rightSpeedError = rightTargetSpeed - rightSpeed;
-          // computing the speed error derivative
-          leftSpeedDer = leftSpeedError - lastLeftSpeedError;
-          rightSpeedDer = rightSpeedError - lastRightSpeedError;
-          // updating the last error value
-          lastLeftSpeedError = leftSpeedError;
-          lastRightSpeedError = rightSpeedError;
-          // limiting the error that will be added to the integral error
-          if ((leftSpeedError > -maxIntError) && (leftSpeedError < maxIntError)) leftSpeedInt = leftSpeedInt + leftSpeedError;
-          if ((rightSpeedError > -maxIntError) && (rightSpeedError < maxIntError)) rightSpeedInt = rightSpeedInt + rightSpeedError;
-          // limiting the integral error
-          if (leftSpeedInt > maxSpeedInt) leftSpeedInt = maxSpeedInt;
-          else if (leftSpeedInt < - maxSpeedInt) leftSpeedInt = - maxSpeedInt;
-          if (rightSpeedInt > maxSpeedInt) rightSpeedInt = maxSpeedInt;
-          else if (rightSpeedInt < - maxSpeedInt) rightSpeedInt = -maxSpeedInt;
-          // actual PID calculus
-          leftBigPWM = leftBigPWM + (kPspeed * leftSpeedError + kDspeed * leftSpeedDer + kIspeed * leftSpeedInt) / 16;
-          rightBigPWM = rightBigPWM + (kPspeed * rightSpeedError + kDspeed * rightSpeedDer + kIspeed * rightSpeedInt) / 16;
-          leftPWM = leftBigPWM / 64;
-          rightPWM = rightBigPWM / 64;
-        */
-        break;
-      }
-  }
+  
   //At this point the PWM value is already defined. Now it suffices to tell the motors what to do
 
   // speed limiting (in order to avoid PWM values higher than the maximally set values)
@@ -1197,12 +790,5 @@ void loop()
   doSerial();
 
   // and, of course, blinking
-  if (statusBlue == false) {
-    statusBlue = true;
-    digitalWrite(Status_Blue, HIGH);
-  }
-  else {
-    statusBlue = false;
-    digitalWrite(Status_Blue, LOW);
-  }
+  
 }
