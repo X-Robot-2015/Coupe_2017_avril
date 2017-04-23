@@ -5,7 +5,7 @@ import threading,time
 from math import atan,pi
 
 move = serial.Serial("/dev/moteur",9600,timeout = 1)
-capteur = serial.Serial("/dev/capteur",115200,timeout = 1)
+capteur = serial.Serial("/dev/pince",115200,timeout = 1)
 ## actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
 l = []
@@ -220,7 +220,7 @@ def update_capt(t):
 def recherche_tube():
     global distance_tab
     
-    dPince = 150
+    dPince = 100
     dCapteurs = 35
     dCentre = 210
     
@@ -247,7 +247,7 @@ def recherche_tube():
     if droite>centre+40:
         if gauche>centre+40:
             print("objet en face") 
-            aller((-centre+dPince,0))
+            aller((centre-dPince,0))
             return 1
         else:
             angle = (pi/2-atan((gauche+dCentre)/dCapteurs))/2
@@ -264,7 +264,6 @@ def recherche_tube():
             print("gros objet")
             return -1
 
-
-serialRead().start()
 capteurDist().start()
+serialRead().start()
 execution().start()

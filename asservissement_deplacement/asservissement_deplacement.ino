@@ -1,13 +1,4 @@
-/*
-  Motor Controller software
-  This software is due to interface the computer  and the motor controller, receiving
-  the signals from the encoders and doing the system control.
-  //the content below is to be deleted when ...
-  To test the loop function, that is, the PID itself, just set desired values for
-  Target speed and Target position at the beggining of the loop.
-  to test the serial communication, adapt the loop code to blink a led, and you can use
-  your own computer o test it at first
-*/
+
 
 long temps = 0;
 float coefVitesseR=1;
