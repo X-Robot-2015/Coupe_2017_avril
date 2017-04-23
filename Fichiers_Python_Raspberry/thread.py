@@ -4,12 +4,12 @@ import serial
 import threading,time
 from math import atan,pi
 
-move = serial.Serial("/dev/moteur",9600,timeout = 1)
-##capteur = serial.Serial("/dev/pince",115200,timeout = 1)
-## actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
+#move = serial.Serial("/dev/moteur",9600,timeout = 1)
+##capteur = serial.Serial("/dev/capteur",115200,timeout = 1)
+actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
 
-l = [(5,(100,0)),(5,(-100,0))]*5
+l = []
 finished = 1
 position = (0,0,0)
 
@@ -72,13 +72,12 @@ class serialRead(threading.Thread):
 distance_tab=[-1,-1,-1]
 class capteurDist(threading.Thread):
     def run(self):
-		while True:
-			replyCommand = capteur.readline()
-			#on identifie à quelle commande correspond la réponse
-			if replyCommand != '':
-				Targ = replyCommand.decode().split(',')
-				#print(Targ)
-				update_capt(Targ)
+        while True:
+            replyCommand = capteur.readline()
+            if replyCommand != '':
+                Targ = replyCommand.decode().split(',')
+                print(Targ)
+                update_capt(Targ)
           
 
 def cmd(f,args):
@@ -265,5 +264,5 @@ def recherche_tube():
             return -1
 
 ##capteurDist().start()
-serialRead().start()
-execution().start()
+##serialRead().start()
+##execution().start()
