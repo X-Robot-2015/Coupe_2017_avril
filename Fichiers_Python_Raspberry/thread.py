@@ -4,7 +4,7 @@ import serial
 import threading,time
 from math import atan,pi
 
-#move = serial.Serial("/dev/moteur",9600,timeout = 1)
+move = serial.Serial("/dev/moteur",9600,timeout = 1)
 ##capteur = serial.Serial("/dev/capteur",115200,timeout = 1)
 actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
@@ -21,20 +21,13 @@ class execution(threading.Thread):
              if finished and l:
                  finished=0
                  command=l.pop(0)
-                 if command[0]==1: #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
-                     avancer(command[1])
-                 if command[0]==2:
-                     r()
-                 if command[0]==3:
-                     tourner(command[1])
-                 if command[0]==4:
-                     setNewTarget(command[1])
-                 if command[0]==5:
+                 if command[0]=="aller": #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
                      aller(command[1])
-                 if command[0]==6:
-                     readPos()
-                 if command[0]==7:
-                     attraper()
+                 elif command[0]=="cyclePince":
+                     pince(8)
+                     time.sleep(10)
+                     
+                 
 
 
 class serialRead(threading.Thread):
@@ -266,5 +259,5 @@ def recherche_tube():
             return -1
 
 ##capteurDist().start()
-##serialRead().start()
-##execution().start()
+serialRead().start()
+execution().start()
