@@ -1,0 +1,3 @@
+SUBSYSTEM == "tty", ATTRS{product} == "Arduino Leonardo", SYMLINK+="moteur"
+SUBSYSTEM == "tty", ATTRS{serial}=="0678FF554852707267114008", SYMLINK+="capteur"
+SUBSYSTEM == "tty", ATTRS{serial}=="066AFF554852707267114127", SYMLINK+="actionneur"
