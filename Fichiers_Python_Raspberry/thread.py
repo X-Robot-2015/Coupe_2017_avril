@@ -4,7 +4,7 @@ import serial
 import threading,time
 from math import atan,pi
 
-move = serial.Serial("/dev/moteur",9600,timeout = 1)
+#move = serial.Serial("/dev/moteur",9600,timeout = 1)
 ##capteur = serial.Serial("/dev/capteur",115200,timeout = 1)
 actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
@@ -78,7 +78,9 @@ class capteurDist(threading.Thread):
                 Targ = replyCommand.decode().split(',')
                 print(Targ)
                 update_capt(Targ)
-          
+
+def pince(a):
+    actionneur.write(chr(a)+chr(1))  
 
 def cmd(f,args):
 	t=(f,args)
