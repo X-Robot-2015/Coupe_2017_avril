@@ -1,0 +1,491 @@
+# depslib dependency file v1.0
+1491591331 source:/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/main.cpp
+	<stdio.h>
+	<stdlib.h>
+	"rplidar.h"
+	<Windows.h>
+	<unistd.h>
+	<signal.h>
+
+1491591108 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar.h
+	"rptypes.h"
+	"rplidar_protocol.h"
+	"rplidar_cmd.h"
+	"rplidar_driver.h"
+
+1464839066 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rptypes.h
+	<stdint.h>
+
+1464839066 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_protocol.h
+
+1472455330 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_cmd.h
+	"rplidar_protocol.h"
+
+1464839066 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_driver.h
+
+1491591925 source:/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_driver.cpp
+	"sdkcommon.h"
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/abs_rxtx.h"
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/thread.h"
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/locker.h"
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/event.h"
+	"rplidar_driver_serial.h"
+
+1491591887 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/sdkcommon.h
+	"arch\win32\arch_win32.h"
+	"arch/macOS/arch_macOS.h"
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/arch_linux.h"
+	"rplidar.h"
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/util.h"
+
+1491591816 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/arch_linux.h
+	<stdio.h>
+	<stdint.h>
+	<string.h>
+	<stdlib.h>
+	<assert.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	<iostream>
+	<string>
+	<unistd.h>
+	<errno.h>
+	<pthread.h>
+	<sys/time.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<sys/select.h>
+	<time.h>
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/timer.h"
+
+1491591856 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/timer.h
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rptypes.h"
+	<unistd.h>
+
+1464839066 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/util.h
+
+1491592005 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/abs_rxtx.h
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rptypes.h"
+
+1491592013 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/thread.h
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rptypes.h"
+
+1464839066 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/locker.h
+
+1464839066 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/event.h
+
+1464839066 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_driver_serial.h
+
+1491592066 source:/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/net_serial.cpp
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/arch_linux.h"
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/net_serial.h"
+	<termios.h>
+	<sys/select.h>
+
+1491592071 /media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/net_serial.h
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/abs_rxtx.h"
+
+1491592109 source:/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/timer.cpp
+	"/media/ubuntu/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/arch_linux.h"
+
+1491591331 source:/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/main.cpp
+	<stdio.h>
+	<stdlib.h>
+	"rplidar.h"
+	<Windows.h>
+	<unistd.h>
+	<signal.h>
+
+1491591108 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar.h
+	"rptypes.h"
+	"rplidar_protocol.h"
+	"rplidar_cmd.h"
+	"rplidar_driver.h"
+
+1464839066 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rptypes.h
+	<stdint.h>
+
+1464839066 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_protocol.h
+
+1472455330 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_cmd.h
+	"rplidar_protocol.h"
+
+1464839066 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_driver.h
+
+1491730033 source:/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_driver.cpp
+	"sdkcommon.h"
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/abs_rxtx.h"
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/thread.h"
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/locker.h"
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/event.h"
+	"rplidar_driver_serial.h"
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/thread.hpp"
+
+1491730017 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/sdkcommon.h
+	"arch\win32\arch_win32.h"
+	"arch/macOS/arch_macOS.h"
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/arch_linux.h"
+	"rplidar.h"
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/util.h"
+
+1464839066 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rplidar_driver_serial.h
+
+1491730107 source:/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/net_serial.cpp
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/arch_linux.h"
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/net_serial.h"
+	<termios.h>
+	<sys/select.h>
+
+1491730115 source:/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/timer.cpp
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/arch_linux.h"
+
+1491730026 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/arch_linux.h
+	<stdio.h>
+	<stdint.h>
+	<string.h>
+	<stdlib.h>
+	<assert.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	<iostream>
+	<string>
+	<unistd.h>
+	<errno.h>
+	<pthread.h>
+	<sys/time.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<sys/select.h>
+	<time.h>
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/timer.h"
+
+1491730006 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/timer.h
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rptypes.h"
+	<unistd.h>
+
+1464839066 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/util.h
+
+1491730042 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/abs_rxtx.h
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rptypes.h"
+
+1491730054 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/thread.h
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/app/ultra_simple/rptypes.h"
+
+1464839066 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/locker.h
+
+1464839066 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/event.h
+
+1491730161 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/thread.hpp
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/arch_linux.h"
+	<sched.h>
+	<pthread.h>
+
+1491730111 /media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/arch/linux/net_serial.h
+	"/media/paul/OS/Users/Paul/Documents/_X_/PSC/Lidar/sdk/sdk/src/hal/abs_rxtx.h"
+
+1492865750 source:/home/paul/Lidar/sdk/app/ultra_simple/main.cpp
+	<iostream>
+	<fstream>
+	<stdio.h>
+	<stdlib.h>
+	<cmath>
+	<list>
+	<unordered_map>
+	<tuple>
+	<chrono>
+	"rplidar.h"
+	<Windows.h>
+	<unistd.h>
+	<signal.h>
+
+1464839066 source:/home/paul/Lidar/sdk/app/ultra_simple/rplidar_driver.cpp
+	"sdkcommon.h"
+	"hal/abs_rxtx.h"
+	"hal/thread.h"
+	"hal/locker.h"
+	"hal/event.h"
+	"rplidar_driver_serial.h"
+
+1492865789 /home/paul/Lidar/sdk/app/ultra_simple/sdkcommon.h
+	"arch\win32\arch_win32.h"
+	"arch/macOS/arch_macOS.h"
+	"arch_linux.h"
+	"rplidar.h"
+	"util.h"
+
+1464839066 /home/paul/Lidar/sdk/app/ultra_simple/rplidar_driver_serial.h
+
+1464839066 source:/home/paul/Lidar/sdk/sdk/src/arch/linux/net_serial.cpp
+	"arch/linux/arch_linux.h"
+	"arch/linux/net_serial.h"
+	<termios.h>
+	<sys/select.h>
+
+1464839066 source:/home/paul/Lidar/sdk/sdk/src/arch/linux/timer.cpp
+	"arch/linux/arch_linux.h"
+
+1481548403 /home/paul/Lidar/sdk/sdk/include/rplidar.h
+	"rptypes.h"
+	"rplidar_protocol.h"
+	"rplidar_cmd.h"
+	"rplidar_driver.h"
+
+1464839066 /home/paul/Lidar/sdk/sdk/include/rptypes.h
+	<stdint.h>
+
+1464839066 /home/paul/Lidar/sdk/sdk/include/rplidar_protocol.h
+
+1472455330 /home/paul/Lidar/sdk/sdk/include/rplidar_cmd.h
+	"rplidar_protocol.h"
+
+1464839066 /home/paul/Lidar/sdk/sdk/include/rplidar_driver.h
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/arch/macOS/arch_macOS.h
+	<stdio.h>
+	<stdint.h>
+	<string.h>
+	<stdlib.h>
+	<assert.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	<iostream>
+	<string>
+	<unistd.h>
+	<errno.h>
+	<pthread.h>
+	<sys/time.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<time.h>
+	"arch/macOS/timer.h"
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/arch/macOS/timer.h
+	"rptypes.h"
+	<unistd.h>
+
+1492865782 /home/paul/Lidar/sdk/sdk/src/arch/linux/arch_linux.h
+	<stdio.h>
+	<stdint.h>
+	<string.h>
+	<stdlib.h>
+	<assert.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	<iostream>
+	<string>
+	<unistd.h>
+	<errno.h>
+	<pthread.h>
+	<sys/time.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<sys/select.h>
+	<time.h>
+	"timer.h"
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/arch/linux/timer.h
+	"rptypes.h"
+	<unistd.h>
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/hal/util.h
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/hal/abs_rxtx.h
+	"rptypes.h"
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/hal/thread.h
+	"rptypes.h"
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/hal/locker.h
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/hal/event.h
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/arch/linux/net_serial.h
+	"hal/abs_rxtx.h"
+
+1464839067 source:/home/paul/Lidar/sdk/sdk/src/hal/thread.cpp
+	"sdkcommon.h"
+	"hal/thread.h"
+	"arch/win32/winthread.hpp"
+	"arch/macOS/thread.hpp"
+	"arch/linux/thread.hpp"
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/sdkcommon.h
+	"arch\win32\arch_win32.h"
+	"arch/macOS/arch_macOS.h"
+	"arch/linux/arch_linux.h"
+	"rplidar.h"
+	"hal/util.h"
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/arch/win32/winthread.hpp
+	"sdkcommon.h"
+	<process.h>
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/arch/macOS/thread.hpp
+	"arch/macOS/arch_macOS.h"
+
+1464839066 /home/paul/Lidar/sdk/sdk/src/arch/linux/thread.hpp
+	"arch/linux/arch_linux.h"
+	<sched.h>
+
+1492865750 source:/home/pi/Lidar/app/ultra_simple/main.cpp
+	<iostream>
+	<fstream>
+	<stdio.h>
+	<stdlib.h>
+	<cmath>
+	<list>
+	<unordered_map>
+	<tuple>
+	<chrono>
+	"rplidar.h"
+	<Windows.h>
+	<unistd.h>
+	<signal.h>
+
+1481548403 /home/pi/Lidar/sdk/include/rplidar.h
+	"rptypes.h"
+	"rplidar_protocol.h"
+	"rplidar_cmd.h"
+	"rplidar_driver.h"
+
+1464839066 /home/pi/Lidar/sdk/include/rptypes.h
+	<stdint.h>
+
+1464839066 /home/pi/Lidar/sdk/include/rplidar_protocol.h
+
+1472455330 /home/pi/Lidar/sdk/include/rplidar_cmd.h
+	"rplidar_protocol.h"
+
+1464839066 /home/pi/Lidar/sdk/include/rplidar_driver.h
+
+1464839066 source:/home/pi/Lidar/app/ultra_simple/rplidar_driver.cpp
+	"sdkcommon.h"
+	"hal/abs_rxtx.h"
+	"hal/thread.h"
+	"hal/locker.h"
+	"hal/event.h"
+	"rplidar_driver_serial.h"
+
+1492865789 /home/pi/Lidar/app/ultra_simple/sdkcommon.h
+	"arch\win32\arch_win32.h"
+	"arch/macOS/arch_macOS.h"
+	"arch_linux.h"
+	"rplidar.h"
+	"util.h"
+
+1464839066 /home/pi/Lidar/sdk/src/arch/macOS/arch_macOS.h
+	<stdio.h>
+	<stdint.h>
+	<string.h>
+	<stdlib.h>
+	<assert.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	<iostream>
+	<string>
+	<unistd.h>
+	<errno.h>
+	<pthread.h>
+	<sys/time.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<time.h>
+	"arch/macOS/timer.h"
+
+1464839066 /home/pi/Lidar/sdk/src/arch/macOS/timer.h
+	"rptypes.h"
+	<unistd.h>
+
+1492865782 /home/pi/Lidar/sdk/src/arch/linux/arch_linux.h
+	<stdio.h>
+	<stdint.h>
+	<string.h>
+	<stdlib.h>
+	<assert.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	<iostream>
+	<string>
+	<unistd.h>
+	<errno.h>
+	<pthread.h>
+	<sys/time.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<sys/select.h>
+	<time.h>
+	"timer.h"
+
+1464839066 /home/pi/Lidar/sdk/src/arch/linux/timer.h
+	"rptypes.h"
+	<unistd.h>
+
+1464839066 /home/pi/Lidar/sdk/src/hal/util.h
+
+1464839066 /home/pi/Lidar/sdk/src/hal/abs_rxtx.h
+	"rptypes.h"
+
+1464839066 /home/pi/Lidar/sdk/src/hal/thread.h
+	"rptypes.h"
+
+1464839066 /home/pi/Lidar/sdk/src/hal/locker.h
+
+1464839066 /home/pi/Lidar/sdk/src/hal/event.h
+
+1464839066 /home/pi/Lidar/app/ultra_simple/rplidar_driver_serial.h
+
+1464839066 source:/home/pi/Lidar/sdk/src/arch/linux/net_serial.cpp
+	"arch/linux/arch_linux.h"
+	"arch/linux/net_serial.h"
+	<termios.h>
+	<sys/select.h>
+
+1464839066 /home/pi/Lidar/sdk/src/arch/linux/net_serial.h
+	"hal/abs_rxtx.h"
+
+1464839066 source:/home/pi/Lidar/sdk/src/arch/linux/timer.cpp
+	"arch/linux/arch_linux.h"
+
+1464839067 source:/home/pi/Lidar/sdk/src/hal/thread.cpp
+	"sdkcommon.h"
+	"hal/thread.h"
+	"arch/win32/winthread.hpp"
+	"arch/macOS/thread.hpp"
+	"arch/linux/thread.hpp"
+
+1464839066 /home/pi/Lidar/sdk/src/sdkcommon.h
+	"arch\win32\arch_win32.h"
+	"arch/macOS/arch_macOS.h"
+	"arch/linux/arch_linux.h"
+	"rplidar.h"
+	"hal/util.h"
+
+1464839066 /home/pi/Lidar/sdk/src/arch/win32/winthread.hpp
+	"sdkcommon.h"
+	<process.h>
+
+1464839066 /home/pi/Lidar/sdk/src/arch/macOS/thread.hpp
+	"arch/macOS/arch_macOS.h"
+
+1464839066 /home/pi/Lidar/sdk/src/arch/linux/thread.hpp
+	"arch/linux/arch_linux.h"
+	<sched.h>
+
