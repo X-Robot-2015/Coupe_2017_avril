@@ -21,6 +21,7 @@ class execution(threading.Thread):
              if finished and l:
                  finished=0
                  command=l.pop(0)
+				 print(command)
                  if command[0]=="aller": #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
                      aller(command[1])
                  elif command[0]=="attraperBas":
