@@ -37,7 +37,6 @@ class serialRead(threading.Thread):
          global finished
          global position
          while True:
-
              replyTest = move.readline()
              replyTest = replyTest[:-2]
 
