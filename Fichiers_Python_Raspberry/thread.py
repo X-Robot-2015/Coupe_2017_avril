@@ -4,7 +4,7 @@ import serial
 import threading,time
 from math import atan,pi
 
-#move = serial.Serial("/dev/moteur",9600,timeout = 1)
+move = serial.Serial("/dev/moteur",9600,timeout = 1)
 #capteur = serial.Serial("/dev/capteur",115200,timeout = 1)
 actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
@@ -26,26 +26,26 @@ class execution(threading.Thread):
                  elif command[0]=="cyclePince":
                      pince(8)
                      time.sleep(10)
-                     
-                 
+
+
 
 
 class serialRead(threading.Thread):
 	def run(self):
-         
+
          replyTest = 0
          global finished
          global position
          while True:
-             
+
              replyTest = move.readline()
              replyTest = replyTest[:-2]
-             
+
              if(len(replyTest) > 0 and replyTest == "debut"):
                  replyCommand = move.readline()
                  replyCommand = replyCommand[:-2]
                  replyArgCount = move.readline()
-                 
+
                  if(replyArgCount[0] == 'd'):
                      break
                  replyArgCount = int(replyArgCount[:-2])# une commande peut éventuellement renvoyer plusieurs valeurs
@@ -61,7 +61,7 @@ class serialRead(threading.Thread):
                      y = 256*ord(Targ[5])+ord(Targ[4])
                      angle = 256*ord(Targ[1])+ord(Targ[0])
                      position = (x,y,angle)
-                     
+
 distance_tab=[-1,-1,-1]
 class capteurDist(threading.Thread):
     def run(self):
@@ -73,7 +73,7 @@ class capteurDist(threading.Thread):
                 update_capt(Targ)
 
 def pince(a):
-    actionneur.write(chr(a)+chr(0))  
+    actionneur.write(chr(a)+chr(0))
 
 def cmd(f,args):
 	t=(f,args)
@@ -186,7 +186,7 @@ def hasArrived(): #case5
 
 def readPos(): #case140
 	move.write(chr(140)+chr(0))
- 
+
 def test():
 	fonctions.cmd(1,(300,400))
 	fonctions.cmd(3,3140)
@@ -205,42 +205,42 @@ def update_capt(t):
     if (rangeStatus==0):
         distance_tab[captIndex]=dist
         #print(distance_tab)
-        
+
     else:
         distance_tab[captIndex]=-500
-        
+
 
 
 def recherche_tube():
     global distance_tab
-    
+
     dPince = 100
     dCapteurs = 35
     dCentre = 210
-    
+
     gauche = distance_tab[2]
     centre=distance_tab[1]
     droite = distance_tab[0]
-    
+
     if min(distance_tab)>300:
         print("pas d'objet en face")
         return -1
     if centre>gauche+40:
-        
+
         angle = pi/2-atan((gauche+dCentre)/dCapteurs)
-        print("objet à gauche :" )        
+        print("objet à gauche :" )
         aller((0,int(180*angle/pi)))
         return 0
     if centre>droite+40:
-        
+
         angle = -(pi/2-atan((droite+dCentre)/dCapteurs))
-        print("objet à droite : :")        
+        print("objet à droite : :")
         aller((0,int(180*angle/pi)))
         return 0
-  
+
     if droite>centre+40:
         if gauche>centre+40:
-            print("objet en face") 
+            print("objet en face")
             aller((centre-dPince,0))
             return 1
         else:
@@ -259,5 +259,5 @@ def recherche_tube():
             return -1
 
 ##capteurDist().start()
-##serialRead().start()
-##execution().start()
+serialRead().start()
+execution().start()
