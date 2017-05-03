@@ -14,16 +14,16 @@ finished = 1
 position = (0,0,0)
 
 class execution(threading.Thread):
-	def run(self):
-    	global finished #il faut préciser qu'on se sert de la varaible globale
-        while True:
+	def run(self) :
+		global finished #il faut préciser qu'on se sert de la varaible globale
+		while True:
         	time.sleep(1)
             if finished and l:
 				finished=0
                 command=l.pop(0)
 				print(command)
                 if command[0]=="aller": #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
-                    aller(command[1])
+                	aller(command[1])
                 elif command[0]=="attraperBas":
 					print("OK")
                     pince(8)
