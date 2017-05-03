@@ -24,6 +24,7 @@ class execution(threading.Thread):
                  if command[0]=="aller": #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
                      aller(command[1])
                  elif command[0]=="attraperBas":
+					 print("OK")
                      pince(8)
                      time.sleep(10)
 
@@ -37,6 +38,7 @@ class serialRead(threading.Thread):
          global finished
          global position
          while True:
+			 sleep(0.1)
              replyTest = move.readline()
              replyTest = replyTest[:-2]
 
