@@ -9,7 +9,7 @@ move = serial.Serial("/dev/moteur",9600,timeout = 1)
 actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
 l = []
-#l = [("aller",(100,0)),("aller",(-100,0))]*2
+#l = [("aller",(500,0)),("attraperBas")]
 finished = 1
 position = (0,0,0)
 
@@ -23,7 +23,7 @@ class execution(threading.Thread):
                  command=l.pop(0)
                  if command[0]=="aller": #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
                      aller(command[1])
-                 elif command[0]=="cyclePince":
+                 elif command[0]=="attraperBas":
                      pince(8)
                      time.sleep(10)
 
