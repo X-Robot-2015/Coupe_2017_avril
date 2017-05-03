@@ -4,12 +4,12 @@ import serial
 import threading,time
 from math import atan,pi
 
-move = serial.Serial("/dev/moteur",9600,timeout = 1)
-##capteur = serial.Serial("/dev/capteur",115200,timeout = 1)
+#move = serial.Serial("/dev/moteur",9600,timeout = 1)
+#capteur = serial.Serial("/dev/capteur",115200,timeout = 1)
 actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
-
 l = []
+#l = [("aller",(100,0)),("aller",(-100,0))]*2
 finished = 1
 position = (0,0,0)
 
@@ -73,7 +73,7 @@ class capteurDist(threading.Thread):
                 update_capt(Targ)
 
 def pince(a):
-    actionneur.write(chr(a)+chr(1))  
+    actionneur.write(chr(a)+chr(0))  
 
 def cmd(f,args):
 	t=(f,args)
@@ -259,5 +259,5 @@ def recherche_tube():
             return -1
 
 ##capteurDist().start()
-serialRead().start()
-execution().start()
+##serialRead().start()
+##execution().start()
