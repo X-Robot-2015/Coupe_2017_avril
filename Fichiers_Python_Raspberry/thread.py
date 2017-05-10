@@ -9,60 +9,82 @@ move = serial.Serial("/dev/moteur",9600,timeout = 1)
 actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
 #l = []
-l = [("aller",(500,0)),("attraperBas")]
+l = [("aller",(700,0)),("attraperBas",1),("aller",(-700,0)),("deposerBas",1)]*4
+#test aller et retour
+
+#l = [("aller",(200,0)), ("attraperBas",1), ("aller",(200,0)), ("deposerBas",1), ("aller",(-500,0)), ("attraperBas",1), ("aller",(600,0)), ("deposerBas",1)]
 finished = 1
 position = (0,0,0)
 
 class execution(threading.Thread) :
+	def __init__(self):
+		threading.Thread.__init__(self)
+		self.running = True
+	
 	def run(self) :
 		global finished #il faut préciser qu'on se sert de la varaible globale
-		while True :
+		while self.running :
 			time.sleep(1)
 			if finished and l :
 				finished=0
-                command=l.pop(0)
+                		command=l.pop(0)
 				print(command)
-                if command[0]=="aller" : #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
+                		if command[0]=="aller" : #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
 					aller(command[1])
-                elif command[0]=="attraperBas":
+					time.sleep(0.5)
+                		elif command[0]=="attraperBas":
+					time.sleep(1)
 					print("OK")
-                    pince(8)
-                    time.sleep(10)
-
-
+                			pince(8)
+                    			time.sleep(3)
+					finished = 1
+				elif command[0] == "deposerBas":
+					time.sleep(1)
+					print("OK")
+					pince(7)
+					time.sleep(2)
+					finished = 1
+	def top(self) : 
+		self.running = False
 
 
 class serialRead(threading.Thread):
+	def __init__(self):
+		threading.Thread.__init__(self)
+	        self.running = True
+	        
 	def run(self):
 
-         replyTest = 0
-         global finished
-         global position
-         while True:
-			 sleep(0.1)
-             replyTest = move.readline()
-             replyTest = replyTest[:-2]
+	        replyTest = 0
+        	global finished
+         	global position
+         	while self.running :
+			time.sleep(1)
+	             	replyTest = move.readline()
+        	     	replyTest = replyTest[:-2]
 
-             if(len(replyTest) > 0 and replyTest == "debut"):
-                 replyCommand = move.readline()
-                 replyCommand = replyCommand[:-2]
-                 replyArgCount = move.readline()
+             		if(len(replyTest) > 0 and replyTest == "debut"):
+                 		replyCommand = move.readline()
+      		           	replyCommand = replyCommand[:-2]
+                	 	replyArgCount = move.readline()
 
-                 if(replyArgCount[0] == 'd'):
-                     break
-                 replyArgCount = int(replyArgCount[:-2])# une commande peut éventuellement renvoyer plusieurs valeurs
-                 Targ = []
-                 for i in range(replyArgCount):
-                     Targ.append(move.readline()[:-2])
-                 if replyCommand == "5":
-                     finished = 1
-                 elif replyCommand == "6":
-    				print("Valeur :"+Targ[0]+"\n")
-                 elif replyCommand == 140:
-                     x = 256*ord(Targ[3])+ord(Targ[2])
-                     y = 256*ord(Targ[5])+ord(Targ[4])
-                     angle = 256*ord(Targ[1])+ord(Targ[0])
-                     position = (x,y,angle)
+                		if(replyArgCount[0] == 'd'):
+                     			break
+	               		replyArgCount = int(replyArgCount[:-2])# une commande peut éventuellement renvoyer plusieurs valeurs
+        	        	Targ = []
+                		for i in range(replyArgCount):
+                     			Targ.append(move.readline()[:-2])
+               			if replyCommand == "5":
+                     			finished = 1
+                		elif replyCommand == "6":
+    					print("Valeur :"+Targ[0]+"\n")
+                		elif replyCommand == 140:
+                     			x = 256*ord(Targ[3])+ord(Targ[2])
+                     			y = 256*ord(Targ[5])+ord(Targ[4])
+                     			angle = 256*ord(Targ[1])+ord(Targ[0])
+                     			position = (x,y,angle)
+   	def top(self):
+		self.running = False
 
 distance_tab=[-1,-1,-1]
 class capteurDist(threading.Thread):
