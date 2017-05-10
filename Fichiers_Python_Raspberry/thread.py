@@ -9,7 +9,7 @@ move = serial.Serial("/dev/moteur",9600,timeout = 1)
 actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
 #l = []
-l = [("aller",(500,0)),("attraperBas")]
+l = [("aller",(100,0)),("attraperBas")]*4
 finished = 1
 position = (0,0,0)
 
@@ -20,9 +20,9 @@ class execution(threading.Thread) :
 			time.sleep(1)
 			if finished and l :
 				finished=0
-                command=l.pop(0)
+				command=l.pop(0)
 				print(command)
-                if command[0]=="aller" : #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
+				if command[0]=="aller" : #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
 					aller(command[1])
                 elif command[0]=="attraperBas":
 					print("OK")
