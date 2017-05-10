@@ -112,9 +112,9 @@ long lastLeftError, lastRightError;
 long leftDer, rightDer;
 long newLeftTarget, newRightTarget;
 
-const int kPcoord = 4000; // WARNING: the value is divided by 1024   anciennes valeurs: 1100, 4000, 0.65
-const int kDcoord = 3000; // WARNING: the value is divided by 1024
-const int kIcoord = 0.7;
+const int kPcoord = 1200; // WARNING: the value is divided by 1024   anciennes valeurs: 1100, 4000, 0.65
+const int kDcoord = 2000; // WARNING: the value is divided by 1024
+const int kIcoord = 1;
 // speed PI
 long leftSpeed, rightSpeed;
 long leftTargetSpeed, rightTargetSpeed;
@@ -200,11 +200,11 @@ time2 = 0;
 
   // Robot construction values
   cpr = 300; // number of counts per revolution of the encoder
-  wheelDiameter = 70; // ENCODER wheel diameter in milimeters
-  leftWheelDiameter =70; // LEFT ENCODER wheel diameter in milimeters
-  rightWheelDiameter = 70; // RIGHT ENCODER wheel diameter in milimeters
+  wheelDiameter = 73; // ENCODER wheel diameter in milimeters
+  leftWheelDiameter =73; // LEFT ENCODER wheel diameter in milimeters
+  rightWheelDiameter = 73; // RIGHT ENCODER wheel diameter in milimeters
   trackWidth = 270; // the distance between the wheels in milimeters
-  motorWheelDiameter = 70; //  MOTOR wheel diameter in milimeters
+  motorWheelDiameter = 73; //  MOTOR wheel diameter in milimeters
 
   // configuring I/O digital ports
   //pinMode(Left_A, INPUT);  // encoder A left input
@@ -404,11 +404,11 @@ void AsservSoft()
   tempPWM = 255.0 * tempPWM;
   rightPWM = (int) tempPWM * tempPWMsign;
 
-  if (erreurAngle < 10 && erreurAngle>-10 &&( (angleTarget>0 && temps*coefVitesseR>=angleTarget) || (angleTarget<=0 && -temps*coefVitesseR<=angleTarget))){
+  if (erreurAngle < 5 && erreurAngle>-5 &&( (angleTarget>0 && temps*coefVitesseR>=angleTarget) || (angleTarget<=0 && -temps*coefVitesseR<=angleTarget))){
     compteurZeroAngle++;
   }
 
-  if(erreurDistance <10 && erreurDistance>-10){
+  if(erreurDistance <5 && erreurDistance>-5){
     compteurZeroDistance ++ ;
   }
 
