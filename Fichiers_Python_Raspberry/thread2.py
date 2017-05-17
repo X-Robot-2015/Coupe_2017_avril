@@ -186,7 +186,12 @@ def aller(t): ##distance en mm, angle en °, case6.
 
 	move.write(chr(6)+chr(4) +chr(Arg0) +chr(Arg1) +chr(Arg2) +chr(Arg3))
 
-
+def stop(): ##arrêt en cas d'obstacle, case 10
+	move.write(chr(10)+chr(0))
+	
+def reprise(): ##reprise du mouvement une fois l'obstacle parti, case 11
+	move.write(chr(11)+chr(0))
+	
 def avancer(t): ##case 1
 	distance,speed = t
 	distance += 32768
