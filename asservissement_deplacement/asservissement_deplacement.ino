@@ -1,4 +1,7 @@
-
+long Distance_actuelle;
+long Angle_actuel;
+long Distance_target_bis;
+long Angle_Target_bis;
 long time1;
 long time2;
 long temps = 0;
@@ -535,6 +538,22 @@ void doSerial() // UART processing function
 
     switch (cardCommand)
     {
+       case 10: // stop at once and memorize position
+        {
+          Distance_actuelle= (long) temps*coefVitesse;
+          //Angle_actuel= (long) temps*coefVitesseR;
+          Angle_actuel = 0;
+          Distance_target_bis=distanceTarget2;
+          Angle_Target_bis=angleTarget;
+          aller(0,0);
+        }
+
+      case 11: // continue previous movement
+        {
+          //aller(Distance_target_bis-Distance_actuelle,Angle_target_bis-Angle_actuel);
+          aller(Distance_target_bis-Distance_actuelle,0);
+        }
+      
       case 6: // set new detination in Position (distance,angle) in mm and degree.
         {
           leftClicks = 0;
