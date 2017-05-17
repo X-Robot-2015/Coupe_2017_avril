@@ -1,4 +1,4 @@
-#include "mbed.h"
+include "mbed.h"
 #include <string>
 using namespace std;
 unsigned int cardArg[16];
@@ -8,8 +8,8 @@ DigitalOut myled(LED1);
 Serial pc(SERIAL_TX, SERIAL_RX);
 
 //Commandes Pince ===========================================================================================================
-PwmOut ServD(D2); // Pin Servo droite
-PwmOut ServG(D3); // Pin Servo gauche
+PwmOut ServG(D2); // Pin Servo droite
+PwmOut ServD(D3); // Pin Servo gauche
 PwmOut ServB(D10); // Pin Servo de base
 //===========================================================================================================================
 
@@ -82,18 +82,173 @@ void fermetureBas(){
 
 //Ouverture Milieu
 void ouvertureMilieu(){
-    ServM_d.pulsewidth_us(1700);
-    ServM_g.pulsewidth_us(1300);
+    ServM_d.pulsewidth_us(1500);
+    ServM_g.pulsewidth_us(1700);
 
 }
 
 //Fermeture Milieu
 void fermetureMilieu(){
-     ServM_d.pulsewidth_us(800);
-     ServM_g.pulsewidth_us(2200);
+     ServM_d.pulsewidth_us(1800);
+     ServM_g.pulsewidth_us(800);
 }
 
 //Ouverture Haut
+void ouvertureHaut(){
+    ServH_d.pulsewidth_us(900);
+    ServH_g.pulsewidth_us(2100);
+}
+
+//Fermeture Haut
+void fermetureHaut(){
+    ServH_d.pulsewidth_us(1600);
+    ServH_g.pulsewidth_us(1400);
+}
+void deposer(){
+    fermetureHaut();
+    ouvertureMilieu();
+    fermetureBas();
+    ouvertureHaut();
+    wait(1);
+    fermetureHaut();
+    fermetureMilieu();
+    wait(1);
+    ouvertureBas();
+    ouvertureMilieu();
+    wait(1);
+    fermetureBas();
+}
+//===================================================================
+void relacher(){
+    ServB.pulsewidth_us(0);
+    ServG.pulsewidth_us(0);
+    ServD.pulsewidth_us(0);
+    ServB_d.pulsewidth_us(0);
+    ServB_g.pulsewidth_us(0);
+    ServM_g.pulsewidth_us(0);
+    ServM_d.pulsewidth_us(0);
+    ServH_g.pulsewidth_us(0);
+    ServM_g.pulsewidth_us(0);
+ }
+//Attention : ne pas donner plus de trois commandes pulsewidth à la suite sans wait(), la carte ST sature
+void cyclePinceBas(){
+    ServG.pulsewidth_us(800);
+    ServD.pulsewidth_us(2100);
+    wait(0.5);
+    descendre();
+    wait(1);
+    attrape_monte();
+    wait(1);
+    lacher();
+    wait(1);
+    ServB.pulsewidth_us(1600);
+    wait(0.5);
+    ServB.pulsewidth_us(1700);
+    wait(0.5);
+    ServB.pulsewidth_us(1600);
+    ouvertureHaut();
+    wait(1);
+    fermetureHaut();
+    ServB.pulsewidth_us(1750);
+    wait(0.5);
+    ouvertureMilieu();
+    wait(0.5);
+    fermetureMilieu();
+    wait(1);
+    relacher();
+
+}
+
+void cycleDeposer(){
+    ouvertureBas();
+    wait(1);
+    fermetureBas();
+    ouvertureMilieu();
+    wait(1);
+    fermetureMilieu();
+    wait(0.5);
+    ouvertureHaut();
+    wait(0.5);
+    fermetureHaut();
+
+}
+
+//void Setup permet juste l'initialisation du Moniteur Série (ouvrir celui de l'Arduino) et d'établir une communication utilisateur - Carte
+void setup()
+{
+    ServB.period_ms(20);
+    ServG.period_ms(20);
+    ServD.period_ms(20);
+    ServB_d.period_ms(20);
+    ServB_g.period_ms(20);
+    ServM_g.period_ms(20);
+    ServM_d.period_ms(20);
+    ServH_g.period_ms(20);
+    ServH_d.period_ms(20);
+    fermetureBas();
+    fermetureMilieu();
+    fermetureHaut();
+    wait(0.5);
+    relacher();
+}
+//=====================================================
+
+
+void main(){
+
+    setup();
+
+    while(1){
+      if(pc.readable()){
+        cardCommand = pc.getc();
+        pc.putc(cardCommand);
+        cardArgCount= pc.getc();
+
+        for (int i = 0; i < cardArgCount; i++){
+            pc.printf("test3");
+            cardArg[i] = pc.getc();
+        }
+
+        switch(cardCommand)
+        {
+            case 0 :
+                descendre();
+                break;
+            case 1 :
+                attrape_monte();
+                break;
+            case 2 :
+                lacher();
+                break;
+            case 3 :
+                ouvertureBas();
+                break;
+            case 4 :
+                fermetureBas();
+                break;
+            case 5 :
+                ouvertureMilieu();
+                break;
+            case 6 :
+                fermetureMilieu();
+                break;
+            case 7 :
+                cycleDeposer();
+                break;
+            case 8 :
+                cyclePinceBas();
+                break;
+            case 9:
+                relacher();
+                break;
+            }
+        }
+    }
+
+}
+
+
+
 void ouvertureHaut(){
     ServH_d.pulsewidth_us(2100);
     ServH_g.pulsewidth_us(900);
