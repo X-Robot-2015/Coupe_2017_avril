@@ -4,19 +4,18 @@ import serial
 import threading,time
 from math import atan,pi
 
-move = serial.Serial("/dev/moteur",9600,timeout = 1)
+#move = serial.Serial("/dev/moteur",9600,timeout = 1)
 #capteur = serial.Serial("/dev/capteur",115200,timeout = 1)
 actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
 #l = []
-<<<<<<< HEAD
-l = [("aller",(100,0)),("attraperBas")]*4
-=======
-l = [("aller",(700,0)),("attraperBas",1),("aller",(-700,0)),("deposerBas",1)]*4
+#l = [("aller",(100,0)),("attraperBas")]*4
+
+#l = [("aller",(700,0)),("attraperBas",1),("aller",(-700,0)),("deposerBas",1)]*4
 #test aller et retour
 
 #l = [("aller",(200,0)), ("attraperBas",1), ("aller",(200,0)), ("deposerBas",1), ("aller",(-500,0)), ("attraperBas",1), ("aller",(600,0)), ("deposerBas",1)]
->>>>>>> ed90ca40b0bf9f2f6b0a8db59204e3f3c79d67fa
+
 finished = 1
 position = (0,0,0)
 
@@ -24,22 +23,17 @@ class execution(threading.Thread) :
 	def __init__(self):
 		threading.Thread.__init__(self)
 		self.running = True
-	
+
 	def run(self) :
 		global finished #il faut préciser qu'on se sert de la varaible globale
 		while self.running :
 			time.sleep(1)
 			if finished and l :
 				finished=0
-<<<<<<< HEAD
 				command=l.pop(0)
 				print(command)
 				if command[0]=="aller" : #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
-=======
-                		command=l.pop(0)
-				print(command)
-                		if command[0]=="aller" : #à terme il faudra créer un tableau du type t= ["avancer","tourner"] et regarder t[command]
->>>>>>> ed90ca40b0bf9f2f6b0a8db59204e3f3c79d67fa
+
 					aller(command[1])
 					time.sleep(0.5)
                 		elif command[0]=="attraperBas":
@@ -54,7 +48,7 @@ class execution(threading.Thread) :
 					pince(7)
 					time.sleep(2)
 					finished = 1
-	def top(self) : 
+	def top(self) :
 		self.running = False
 
 
@@ -62,7 +56,7 @@ class serialRead(threading.Thread):
 	def __init__(self):
 		threading.Thread.__init__(self)
 	        self.running = True
-	        
+
 	def run(self):
 
 	        replyTest = 0
@@ -293,5 +287,5 @@ def recherche_tube():
             return -1
 
 ##capteurDist().start()
-serialRead().start()
-execution().start()
+##serialRead().start()
+##execution().start()
