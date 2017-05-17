@@ -8,20 +8,20 @@ import RPi.GPIO as GP
 
 GP.setmode(GP.BOARD)
 GP.setup(11,GP.OUT)
-GP.setup(13,GP.IN)
+
+
+GP.output(11,True)
+time.sleep(2)
+GP.output(11,False)
+
+                                
+                                
 
 move = serial.Serial("/dev/moteur",9600,timeout = 1)
 capteur = serial.Serial("/dev/capteur",115200,timeout = 1)
 actionneur = serial.Serial("/dev/actionneur",9600,timeout = 1)
 
-input_value = False
-GP.output(11,True)
-while(not input_value) :
-	input_value = GP.input(13)
-GP.output(11,False)
-
-
-l = [("aller",(150,0)),("noStop",0),("aller",(0,-90)),("aller",(130,0)),("attraperBas",(150,0)),("endNoStop",0),("aller",(450,0)),("aller",(0,-90)),("aller",(670,0)),("noStop",0),("aller",(0,90)),("endNoStop",0),("aller",(100,0)),("deposerBas",(670,0))]
+l = [("aller",(150,0)),("aller",(0,-90)),("aller",(130,0)),("attraperBas",(150,0)),("aller",(450,0)),("aller",(0,-90)),("aller",(670,0)),("aller",(0,90)),("aller",(100,0)),("deposerBas",(670,0))]
 #l = [("aller",(700,0)),("attraperBas",1),("aller",(0,90)),("aller",(700,0)),("aller",(90,0)),("deposerBas",1)]*4
 #test aller et retour
 
@@ -29,7 +29,6 @@ l = [("aller",(150,0)),("noStop",0),("aller",(0,-90)),("aller",(130,0)),("attrap
 finished = 1
 position = (0,0,0)
 arret = False
-arretable = True
 
 class execution(threading.Thread) :
 	def __init__(self):
@@ -37,12 +36,11 @@ class execution(threading.Thread) :
 		self.running = True
 	
 	def run(self) :
-		global arretable
 		global arret
 		global finished #il faut préciser qu'on se sert de la varaible globale
 		while self.running :
 			time.sleep(0.5)
-			print(arret)
+			
 			if l and arret == False :
 				finished=0
                 		command=l.pop(0)
@@ -62,11 +60,6 @@ class execution(threading.Thread) :
 					pince(7)
 					time.sleep(2)
 					finished = 1
-				elif command[0] == "noStop":
-					arretable = False
-				elif command[0] == "endNoStop":
-					arretable = True
-					arret = False
 	def top(self) : 
 		self.running = False
 
@@ -112,22 +105,20 @@ class serialRead(threading.Thread):
 distance_tab=[-1,-1,-1]
 class capteurDist(threading.Thread):
     def run(self):
-    	global arretable
     	global arret
         while True:
             replyCommand = capteur.readline()
             if replyCommand != '':
-                Targ = replyCommand.decode(encoding='UTF-8').split(',')
+                Targ = replyCommand.decode().split(',')
+                print(Targ)
                 update_capt(Targ)
-                print(distance_tab[1])
-		if(0 < distance_tab[1]  < 200):
-	    		if(arret == False and arretable == True) :
-	    			arret = True
-	    			print(arret)
-	    			aller((0,0))
-	    	elif(arret == True):
-	    		arret = False
-	    		print(arret) 
+		print(distance_tab)
+	    if(0 < distance_tab[1]  < 200):
+	    	if(arret == False) :
+	    		arret = True
+	    		aller((0,0))
+	    elif(arret == True):
+	    	arret = False 
 def pince(a):
     actionneur.write(chr(a)+chr(0))
 
@@ -258,11 +249,11 @@ def update_capt(t):
     timeStamp = int(t[1])
     rangeStatus = int(t[2])
     dist = int(t[3])
-    if (rangeStatus==0 and captIndex < 2):
+    if (rangeStatus==0):
         distance_tab[captIndex]=dist
         #print(distance_tab)
 
-    elif captIndex < 2:
+    else:
         distance_tab[captIndex]=-500
 
 
