@@ -384,7 +384,7 @@ void AsservSoft()
 
   distanceDer = erreurDistance - lastErreurDistance;
   angleDer = erreurAngle - lastErreurAngle;
-  if(distanceInt+erreurDistance<2000 && distabceInt+erreurDistance>-2000){
+  if(distanceInt+erreurDistance<2000 && distanceInt+erreurDistance>-2000){
     distanceInt += erreurDistance;
   }
   if(angleInt+erreurAngle<2000 &&angleInt+erreurAngle>-2000){
